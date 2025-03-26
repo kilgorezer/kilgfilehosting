@@ -5,7 +5,7 @@
 <on_join_event> ::= "#onJoin" <newline> <statement>*
 <command> ::= "msg" <string> <newline>
             | "cpemsg" <cpe_message_field> <string> <newline>
-            | "localmsg" <cpe_message_field> <string> <newline>
+            | "localmsg" <cpe_msg_with_chat> <string> <newline>
             | "menumsg" <cpe_message_field> <string> <newline>
             | "delay" <package_or_number> <newline>
             | "jump" <label> <newline>
@@ -90,27 +90,9 @@
 <string> ::= <any_character>*
 <string_literal> ::= "\"" <any_character>* "\""
 <external_command> ::= <package>*
-<package> ::= [A-Za-z0-9_]+
-<label> ::= "#" <accepted_command_char>*
-<accepted_command_char> ::= "\u00A0" | "\u00A1" | "\u00A2" | "\u00A3" | "\u00A5" | "\u00A7" | "\u00AA" | "\u00AC" |
-    "\u00B0" | "\u00B1" | "\u00B2" | "\u00B6" | "\u00B7" | "\u00BC" | "\u00BD" | "\u00BF" |
-    "\u00C4" | "\u00C5" | "\u00C6" | "\u00C7" | "\u00C9" | "\u00D1" | "\u00D6" | "\u00DC" |
-    "\u00E0" | "\u00E1" | "\u00E2" | "\u00E4" | "\u00E5" | "\u00E6" | "\u00E7" | "\u00E8" |
-    "\u00E9" | "\u00EA" | "\u00EB" | "\u00EC" | "\u00EE" | "\u00EF" | "\u00F2" | "\u00F3" |
-    "\u00F4" | "\u00F6" | "\u00F7" | "\u00F9" | "\u00FA" | "\u00FB" | "\u00FF" | "\u0192" |
-    "\u2022" | "\u207F" | "\u20A7" | "\u2190" | "\u2191" | "\u2192" | "\u2193" | "\u2194" |
-    "\u2195" | "\u21A8" | "\u2219" | "\u221A" | "\u221E" | "\u221F" | "\u2229" | "\u2248" |
-    "\u2261" | "\u2264" | "\u2265" | "\u2302" | "\u2310" | "\u2320" | "\u2321" | "\u2500" |
-    "\u2502" | "\u250C" | "\u2510" | "\u2514" | "\u2518" | "\u251C" | "\u2524" | "\u2534" |
-    "\u253C" | "\u2550" | "\u2551" | "\u2552" | "\u2553" | "\u2554" | "\u2555" | "\u2556" |
-    "\u2557" | "\u2558" | "\u2559" | "\u255A" | "\u255B" | "\u255C" | "\u255D" | "\u255E" |
-    "\u255F" | "\u2560" | "\u2561" | "\u2562" | "\u2563" | "\u2564" | "\u2565" | "\u2566" |
-    "\u2567" | "\u2568" | "\u2569" | "\u256A" | "\u256B" | "\u256C" | "\u2580" | "\u2584" |
-    "\u2588" | "\u258C" | "\u2590" | "\u2591" | "\u2592" | "\u2593" | "\u25A0" | "\u25B2" |
-    "\u25BA" | "\u25BC" | "\u25CB" | "\u25D8" | "\u25D9" | "\u25AC" | "\u263A" | "\u263B" |
-    "\u263C" | "\u2640" | "\u2642" | "\u2660" | "\u2663" | "\u2665" | "\u2666" | "\u266A" |
-    "\u266B" | "\u0393" | "\u03A3" | "\u03A6" | "\u0398" | "\u03A9" | "\u03B1" | "\u03B2" |
-    "\u03B4" | "\u03B5" | "\u03BC" | "\u03C0" | "\u03C3" | "\u03C4" | "\u03C6" | [!-z] | "~"
+<package> ::= <safe_command_char>*
+<label> ::= "#" <safe_command_char>*
+<safe_command_char> ::= [!-^] | [`-~] | "~"
 <number> ::= [0-9]+
 <package_or_number> ::= <package> | <number>
 <newline> ::= "\n"
@@ -118,7 +100,8 @@
 <comparison_operator> ::= "=" | ">" | ">=" | "<" | "<="
 <if_comparison_value> ::= <package> | <string_literal> | <number>
 <no_space_string> ::= [A-Za-z0-9_]+
-<cpe_message_field> ::= "top1" | "top2" | "top3" | "bot1" | "bot2" | "bot3" | "announce" | "bigannounce" | "smallannounce" | "chat"
+<cpe_message_field> ::= "top1" | "top2" | "top3" | "bot1" | "bot2" | "bot3" | "announce" | "bigannounce" | "smallannounce"
+<cpe_msg_with_chat> ::= <cpe_message_field> | "chat"
 <reset_type> ::= "packages" | "items" | "saved" | "locals"
 <item_action> ::= "get" | "take"
 <env_property> ::= "sky" | "cloud" | "cloudspeed" | "cloudheight" | "fog" | "shadow" | "sun" | "skybox" | "lavalight" | "lamplight" | "weather" | "maxfog" | "expfog"
@@ -147,3 +130,5 @@
     "\u263C" | "\u2640" | "\u2642" | "\u2660" | "\u2663" | "\u2665" | "\u2666" | "\u266A" |
     "\u266B" | "\u0393" | "\u03A3" | "\u03A6" | "\u0398" | "\u03A9" | "\u03B1" | "\u03B2" |
     "\u03B4" | "\u03B5" | "\u03BC" | "\u03C0" | "\u03C3" | "\u03C4" | "\u03C6" | [ -~]
+
+// Strings are not represented like string literals, as they must not have quotes surrounding them.
