@@ -391,3 +391,4 @@
 // Strings: Not string literals (except in if/ifnot comparisons).
 // Single-line Comments: Starts with //, has to be on a seperate line from code.
 // Multi-line Comments: There are no multiline comments in this language. To have more than one line of comments, use multiple single-line comments.
+// Include statements have no filename, however, the files on the server side have a .nas extension.
