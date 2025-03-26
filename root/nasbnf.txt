@@ -8,12 +8,12 @@
             | "localmsg" <cpe_message_field> <string_literal> <newline>
             | "menumsg" <cpe_message_field> <string_literal> <newline>
             | "delay" <identifier_or_number> <newline>
-            | "jump" <label_identifier> <newline>
-            | "goto" <label_identifier> <newline>
-            | "call" <label_identifier> <newline>
+            | "jump" <label> <newline>
+            | "goto" <label> <newline>
+            | "call" <label> <newline>
             | "quit" <newline>
             | "terminate" <newline>
-            | "newthread" <label_identifier> <newline>
+            | "newthread" <label> <newline>
             | "cmd" <external_command> <newline>
             | "set" <identifier> <value> <newline>
             | "setadd" <identifier> <identifier_or_number> <newline>
@@ -47,9 +47,9 @@
             | "setspawn" <identifier> <newline>
             | "setdeathspawn" <identifier> <newline>
             | "allowmbrepeat" <newline>
-            | "reply" <number> "|" <string_literal> "|" <label_identifier> <newline>
+            | "reply" <number> "|" <string_literal> "|" <label> <newline>
             | "reply" "clear" <newline>
-            | "replysilent" <number> "|" <string_literal> "|" <label_identifier> <newline>
+            | "replysilent" <number> "|" <string_literal> "|" <label> <newline>
             | "replysilent" "clear" <newline>
             | "tempblock" <external_command> <newline>
             | "tempchunk" <external_command> <newline>
@@ -65,23 +65,23 @@
             | "setsplit" <identifier> <string_literal>? <newline>
             | "setlength" <identifier> <string_literal>? <newline>
             | "setdirvector" <identifier> <identifier> <identifier> <identifier_or_number> <identifier_or_number> <newline>
-            | "clickevent" <click_mode> "register" <label_identifier> <newline>
+            | "clickevent" <click_mode> "register" <label> <newline>
             | "clickevent" <click_mode> "unregister" <newline>
-            | "chatevent" "sync" "register" <label_identifier> <label_identifier> <value_list> <newline>
+            | "chatevent" "sync" "register" <label> <label> <value_list> <newline>
             | "chatevent" "sync" "unregister" <newline>
             | "error" <string_literal> <newline>
             | "gui" <gui_option> <gui_value> <newline>
             | "gui" "reset" <newline>
-<label_declaration> ::= <identifier> ":" <newline> <statement>*
-<goto_statement> ::= "goto" <identifier> <newline>
+<label_declaration> ::= <label> <newline> <statement>*
+<goto_statement> ::= "goto" <label> <newline>
 <if_statement> ::= "if" <identifier> <command> <newline>
                   | "if" <identifier> "|" <comparison_operator> "|" <if_comparison_value> <command> <newline>
                   | "if" "item" <identifier> <command> <newline>
-                  | "if" "label" <identifier> <command> <newline>
+                  | "if" "label" <label> <command> <newline>
                   | "ifnot" <identifier> <command> <newline>
                   | "ifnot" <identifier> "|" <comparison_operator> "|" <if_comparison_value> <command> <newline>
                   | "ifnot" "item" <identifier> <command> <newline>
-                  | "ifnot" "label" <identifier> <command> <newline>
+                  | "ifnot" "label" <label> <command> <newline>
 <else_statement> ::= "else" <command> <newline>
 <label_call> ::= <identifier> "|" <arguments>* <newline>
 <arguments> ::= <identifier> | <string_literal>
@@ -90,7 +90,7 @@
 <string_literal> ::= <identifier>* | "\"" <identifier>* "\""
 <external_command> ::= <identifier>*
 <identifier> ::= [A-Za-z0-9_]+
-<label_identifier> ::= "#" <identifier>
+<label> ::= "#" <identifier>
 <number> ::= [0-9]+
 <identifier_or_number> ::= <identifier> | <number>
 <newline> ::= "\n"
