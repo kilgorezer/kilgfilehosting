@@ -4,84 +4,82 @@
 <statement> ::= <on_join_event> | <command> | <label_declaration> | <goto_statement> | <if_statement> | <label_call> | <comment> | <else_statement> | <package_unwrap>
 <on_join_event> ::= "#onJoin" <newline> <statement>*
 <command> ::= "msg" <string_literal> <newline>
-            | "cpemsg" <identifier> <string_literal> <newline>
-            | "localmsg" <identifier> <string_literal> <newline>
-            | "menumsg" <identifier> <string_literal> <newline>
-            | "delay" <identifier> <newline>
-            | "jump" <identifier> <newline>
-            | "goto" <identifier> <newline>
-            | "call" <identifier> <newline>
+            | "cpemsg" <cpe_message_field> <string_literal> <newline>
+            | "localmsg" <cpe_message_field> <string_literal> <newline>
+            | "menumsg" <cpe_message_field> <string_literal> <newline>
+            | "delay" <identifier_or_number> <newline>
+            | "jump" <label_identifier> <newline>
+            | "goto" <label_identifier> <newline>
+            | "call" <label_identifier> <newline>
             | "quit" <newline>
             | "terminate" <newline>
-            | "newthread" <identifier> <newline>
+            | "newthread" <label_identifier> <newline>
             | "cmd" <external_command> <newline>
-            | "set" <identifier> <identifier> <newline>
-            | "setadd" <identifier> <identifier> <newline>
-            | "setsub" <identifier> <identifier> <newline>
-            | "setmul" <identifier> <identifier> <newline>
-            | "setdiv" <identifier> <identifier> <newline>
-            | "setmod" <identifier> <identifier> <newline>
-            | "setpow" <identifier> <identifier> <newline>
-            | "setsin" <identifier> <identifier> <newline>
-            | "setcos" <identifier> <identifier> <newline>
-            | "settan" <identifier> <identifier> <newline>
-            | "setsqrt" <identifier> <identifier> <newline>
-            | "setrandrange" <identifier> <identifier> <identifier> <newline>
-            | "setrandrangedecimal" <identifier> <identifier> <identifier> <newline>
-            | "setrandlist" <identifier> <identifier> <newline>
+            | "set" <identifier> <value> <newline>
+            | "setadd" <identifier> <identifier_or_number> <newline>
+            | "setsub" <identifier> <identifier_or_number> <newline>
+            | "setmul" <identifier> <identifier_or_number> <newline>
+            | "setdiv" <identifier> <identifier_or_number> <newline>
+            | "setmod" <identifier> <identifier_or_number> <newline>
+            | "setpow" <identifier> <identifier_or_number> <newline>
+            | "setsin" <identifier> <identifier_or_number> <newline>
+            | "setcos" <identifier> <identifier_or_number> <newline>
+            | "settan" <identifier> <identifier_or_number> <newline>
+            | "setsqrt" <identifier> <identifier_or_number> <newline>
+            | "setrandrange" <identifier> <identifier_or_number> <identifier_or_number> <newline>
+            | "setrandrangedecimal" <identifier> <identifier_or_number> <identifier_or_number> <newline>
+            | "setrandlist" <identifier> <value_list> <newline>
             | "setround" <identifier> <newline>
             | "setroundup" <identifier> <newline>
             | "setrounddown" <identifier> <newline>
-            | "setfromhexcolor" <identifier> <identifier> <newline>
+            | "setfromhexcolor" <identifier> <hex_color> <newline>
             | "settohexcolor" <identifier> <identifier> <newline>
             | "show" <identifier> <identifier>* <newline>
             | "kill" <string_literal>? <newline>
-            | "resetdata" <identifier> <identifier>? <newline>
-            | "item" <identifier> <identifier> <newline>
+            | "resetdata" <reset_type> <string_literal>? <newline>
+            | "item" <item_action> <identifier> <newline>
             | "freeze" <newline>
             | "unfreeze" <newline>
             | "look" <identifier> <newline>
             | "stare" <identifier>? <newline>
-            | "env" <identifier> <identifier> <newline>
-            | "motd" <identifier>* <newline>
+            | "env" <env_property> <identifier> <newline>
+            | "motd" <motd_arguments>* <newline>
             | "setspawn" <identifier> <newline>
             | "setdeathspawn" <identifier> <newline>
             | "allowmbrepeat" <newline>
-            | "reply" <identifier> "|" <string_literal> "|" <identifier> <newline>
+            | "reply" <number> "|" <string_literal> "|" <label_identifier> <newline>
             | "reply" "clear" <newline>
-            | "replysilent" <identifier> "|" <string_literal> "|" <identifier> <newline>
+            | "replysilent" <number> "|" <string_literal> "|" <label_identifier> <newline>
             | "replysilent" "clear" <newline>
-            | "tempblock" <identifier> <newline>
-            | "tempchunk" <identifier> <newline>
-            | "boost" <identifier> <newline>
-            | "effect" <identifier> <newline>
-            | "reach" <identifier> <newline>
+            | "tempblock" <external_command> <newline>
+            | "tempchunk" <external_command> <newline>
+            | "boost" <external_command> <newline>
+            | "effect" <external_command> <newline>
+            | "reach" <identifier_or_number> <newline>
             | "setblockid" <identifier> <identifier> <newline>
-            | "definehotkey" <identifier> "|" <identifier> "|" <identifier>* <newline>
-            | "undefinehotkey" <identifier> "|" <identifier>* <newline>
+            | "definehotkey" <string_literal> "|" <key_name> "|" <hotkey_modifiers>* <newline>
+            | "undefinehotkey" <key_name> "|" <hotkey_modifiers>* <newline>
             | "placeblock" <identifier> <identifier> <newline>
             | "changemodel" <identifier>? <newline>
             | "award" <identifier> <newline>
-            | "setsplit" <identifier> <identifier>? <newline>
-            | "setlength" <identifier> <identifier>? <newline>
-            | "setdirvector" <identifier> <identifier> <identifier> <identifier> <identifier> <newline>
-            | "clickevent" <identifier> "register" <identifier> <newline>
-            | "clickevent" <identifier> "unregister" <newline>
-            | "chatevent" "sync" "register" <identifier> <identifier> <string_literal> <newline>
+            | "setsplit" <identifier> <string_literal>? <newline>
+            | "setlength" <identifier> <string_literal>? <newline>
+            | "setdirvector" <identifier> <identifier> <identifier> <identifier_or_number> <identifier_or_number> <newline>
+            | "clickevent" <click_mode> "register" <label_identifier> <newline>
+            | "clickevent" <click_mode> "unregister" <newline>
+            | "chatevent" "sync" "register" <label_identifier> <label_identifier> <value_list> <newline>
             | "chatevent" "sync" "unregister" <newline>
             | "error" <string_literal> <newline>
-            | "gui" <identifier> <identifier> <newline>
+            | "gui" <gui_option> <gui_value> <newline>
             | "gui" "reset" <newline>
 <label_declaration> ::= <identifier> ":" <newline> <statement>*
 <goto_statement> ::= "goto" <identifier> <newline>
 <if_statement> ::= "if" <identifier> <command> <newline>
-                  | "if" <identifier> "|=|" <identifier> <command> <newline>
-                  | "if" <identifier> "|" <identifier> "|" <identifier> <command> <newline>
+                  | "if" <identifier> "|" <comparison_operator> "|" <if_comparison_value> <command> <newline>
                   | "if" "item" <identifier> <command> <newline>
                   | "if" "label" <identifier> <command> <newline>
                   | "ifnot" <identifier> <command> <newline>
-                  | "ifnot" <identifier> "|=|" <identifier> <command> <newline>
-                  | "ifnot" <identifier> "|" <identifier> "|" <identifier> <command> <newline>
+                  | "ifnot" <identifier> "|" <comparison_operator> "|" <if_comparison_value> <command> <newline>
                   | "ifnot" "item" <identifier> <command> <newline>
                   | "ifnot" "label" <identifier> <command> <newline>
 <else_statement> ::= "else" <command> <newline>
@@ -92,5 +90,21 @@
 <string_literal> ::= <identifier>* | "\"" <identifier>* "\""
 <external_command> ::= <identifier>*
 <identifier> ::= [A-Za-z0-9_]+
+<label_identifier> ::= "#" <identifier>
+<number> ::= [0-9]+
+<identifier_or_number> ::= <identifier> | <number>
 <newline> ::= "\n"
 <whitespace> ::= [ \t]+
+<comparison_operator> ::= "=" | ">" | ">=" | "<" | "<="
+<if_comparison_value> ::= <identifier> | "\"" <no_space_string> "\""
+<no_space_string> ::= [A-Za-z0-9_]+
+<cpe_message_field> ::= "top1" | "top2" | "top3" | "bot1" | "bot2" | "bot3" | "announce" | "bigannounce" | "smallannounce" | "chat"
+<reset_type> ::= "packages" | "items" | "saved" | "locals"
+<item_action> ::= "get" | "take"
+<env_property> ::= "sky" | "cloud" | "cloudspeed" | "cloudheight" | "fog" | "shadow" | "sun" | "skybox" | "lavalight" | "lamplight" | "weather" | "maxfog" | "expfog"
+<motd_arguments> ::= <identifier> | <number> | <string_literal>
+<key_name> ::= <identifier>
+<hotkey_modifiers> ::= "ctrl" | "shift" | "alt" | "async"
+<click_mode> ::= "async" | "sync"
+<value> ::= <string_literal> | <package_unwrap>
+<value_list> ::= <value> ("|" <value>)*
