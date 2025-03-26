@@ -87,7 +87,7 @@
 <arguments> ::= <package> | <string_literal>
 <comment> ::= "//" <string_literal> <newline>
 <package_unwrap> ::= "{" <package> "}"
-<string> ::= <package>* | "\"" <any_character>* "\""
+<string> ::= <any_character>*
 <string_literal> ::= "\"" <any_character>* "\""
 <external_command> ::= <package>*
 <package> ::= [A-Za-z0-9_]+
