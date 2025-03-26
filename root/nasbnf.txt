@@ -132,3 +132,258 @@
     "\u03B4" | "\u03B5" | "\u03BC" | "\u03C0" | "\u03C3" | "\u03C4" | "\u03C6" | [ -~]
 
 // Strings are not represented like string literals, as they must not have quotes surrounding them.
+
+// Action Section: Commands for player interaction and script control.
+
+// msg [message]: Sends a message to the player. Supports placeholders:
+//   - @p: Player's name (with +).
+//   - @nick: Player's natural name (e.g., Mike).
+//   - @color: Player's color code.
+
+// cpemsg [cpe message field] <message>: Sends messages to special chat fields (top/bottom/center).
+//   - Fields: top1, top2, top3, bot1, bot2, bot3, announce, bigannounce, smallannounce.
+//   - Max 64 characters (color codes count as 2).
+//   - "announce" fields disappear after 5 seconds. Others stay until reset.
+//   - Use blank message to reset.
+
+// localmsg [cpe message field] <message>: Sends messages to all players in the level.
+//   - Use "chat" for normal chat.
+
+// menumsg [cpe message field] <message>: Announcement messages that stay on screen.
+//   - Fields: announce, bigannounce, smallannounce.
+
+// wait [number or package]: Pauses the script for specified milliseconds.
+
+// jump [#label]: Jumps to the specified label and continues execution.
+
+// goto [#label]: Jumps to the label and clears the call stack (doesn't return from "call").
+
+// call [#label]: Jumps to the label, returns after "quit".
+
+// quit: Stops script execution or returns from "call".
+
+// terminate: Stops script execution completely.
+
+// newthread [#label]: Starts a new thread to run the label, ignores delays. Add delay after for synchronization.
+
+// cmd [command] <command arguments>: Runs external commands. Supports @p and @nick.
+
+// set [package] [value]: Sets package value. Use {package} to assign value from another package.
+
+// setadd [package] [number or package]: Adds value to package.
+
+// setsub [package] [number or package]: Subtracts value from package.
+
+// setmul [package] [number or package]: Multiplies package value.
+
+// setdiv [package] [number or package]: Divides package value.
+
+// setmod [package] [number or package]: Sets package to remainder of division.
+
+// setpow [package] [number or package]: Sets package to power of value.
+
+// setsin [package] [number or package]: Sets package to sine of value.
+
+// setcos [package] [number or package]: Sets package to cosine of value.
+
+// settan [package] [number or package]: Sets package to tangent of value (radians).
+
+// setsqrt [package] [number or package]: Sets package to square root of value.
+
+// setrandrange [package] [number or package] [number or package]: Sets package to random integer within range.
+
+// setrandrangedecimal [package] [number or package] [number or package]: Sets package to random decimal within range.
+
+// setrandlist [package] [value1]|[value2]|[value3]...: Sets package to random value from list.
+
+// setround [package]: Rounds package value to nearest integer.
+
+// setroundup [package]: Rounds package value up to next integer.
+
+// setrounddown [package]: Rounds package value down to previous integer.
+
+// setfromhexcolor [package] [hexColor]: Converts hex color to RGB components in package (myColor[0]=R, myColor[1]=G, myColor[2]=B).
+
+// settohexcolor [package] [colorStructure]: Converts RGB color structure to hex color in package.
+
+// show [package] <another package>...: Displays package values for debugging.
+
+// show: Displays all non-saved package values.
+
+// kill <message>: Kills player with optional public death message.
+
+// resetdata [type] <pattern>: Resets data (packages, items, saved, locals). Pattern supports * and ?.
+
+// item [get/take] [ITEM_NAME]: Gives or takes item from player (underscores for spaces).
+
+// freeze: Freezes player.
+
+// unfreeze: Unfreezes player.
+
+// look [block coordinates]: Makes player look at coordinates.
+
+// stare <block coordinates>: Forces player to stare at coordinates. No coordinates to unfreeze.
+
+// env [property] [value]: Temporarily changes environment properties (sky, cloud, fog, etc.).
+
+// motd [motd arguments]: Sends MOTD to control hacks. /help map motd for flags. motd ignore resets.
+
+// setspawn [block coords]: Sets player's spawn.
+
+// setdeathspawn [block coords]: Sets player's death spawn.
+
+// allowmbrepeat: Allows triggering same walk-through MB repeatedly.
+
+// reply [option number]|[text]|[#label]: Sets up reply option. Max 6 replies (4-6 not recommended). reply clear clears.
+
+// replysilent: Reply without notifications. replysilent clear clears.
+
+// tempblock [args]: Shortcut for cmd tempblock.
+
+// tempchunk [args]: Shortcut for cmd tempchunk.
+
+// boost [args]: Shortcut for cmd boost.
+
+// effect [args]: Shortcut for cmd effect.
+
+// reach [distance]: Sets player's reach distance.
+
+// setblockid [package] [block coordinates]: Sets package to block ID. Doesn't see tempblock/tempchunk changes.
+
+// definehotkey [input args]|[key name]|<modifiers>: Defines hotkey. /input [input args]. async calls #inputAsync.
+
+// undefinehotkey [key name]|<modifiers>: Removes hotkey.
+
+// placeblock [block] [block coordinates]: Places block permanently.
+
+// changemodel <model>: Changes player's model. No arguments to reset.
+
+// award [award]: Gives player award.
+
+// setsplit [package] <splitter>: Splits package into array of packages.
+
+// setlength [package] <splitter>: Sets package.Length to string length.
+
+// setdirvector [xPackage] [yPackage] [zPackage] [yaw] [pitch]: Sets packages to 3D direction vector.
+
+// clickevent [async/sync] register [#label]: Registers click event label.
+
+// clickevent [async/sync] unregister: Unregisters click event label.
+
+// chatevent sync register [#cancelLogic] [#onChat] [phrase]|...: Registers chat event labels. Not for os scripts.
+
+// chatevent sync unregister: Unregisters chat event.
+
+// error [message]: Forces script error.
+
+// gui [option] [value]: Changes GUI properties (crosshair, hand, hotbar, barSize, barColor). gui reset resets.
+
+// If Statement Section: Conditional execution of actions.
+
+// if [package] [Action]: Executes [Action] if [package] is "true".
+
+// if [package]|=|[package to compare to] [Action]: Executes [Action] if [package] equals [package to compare to] (case-insensitive).
+//   - Use quotes for literal comparison (no spaces).
+//   - Example: if runArg2|=|password msg ...
+
+// if [package]|[operator]|[number or package] [Action]: Executes [Action] based on comparison with operators (=, >, >=, <, <=).
+//   - Example: if myGemCount|<|bowGemPrice msg ...
+
+// if item [ITEM_NAME] [Action]: Executes [Action] if player has the specified item.
+
+// if label [#label] [Action]: Executes [Action] if the label exists (runArgs ignored).
+
+// ifnot [condition] [Action]: Reverses the logic of "if". Executes [Action] if the condition is false.
+//   - Example: ifnot recognized msg ...
+
+// else [Action]: Executes [Action] if the previous "if" or "ifnot" condition was false.
+//   - Example: ifnot recognized msg ... else msg ...
+
+// Preset Packages Section: Predefined variables for script context and player data.
+
+// MBCoords: Space-separated coordinates of the message block running the script.
+// MBX, MBY, MBZ: Individual X, Y, Z coordinates of the message block.
+// PlayerCoords: Space-separated player block coordinates.
+// PlayerHeldBlock: ID of the block the player is holding.
+// PlayerX, PlayerY, PlayerZ: Individual player block coordinates.
+// PlayerCoordsPrecise: Space-separated precise player coordinates (32 per-block).
+// PlayerPX, PlayerPY, PlayerPZ: Individual precise player coordinates.
+// PlayerCoordsDecimal: Space-separated decimal player coordinates.
+// PlayerYaw: Player's camera yaw (left/right) in degrees.
+// PlayerPitch: Player's camera pitch (up/down) in degrees.
+// PlayerPronouns: Player's selected pronouns (e.g., they/them).
+// msgDelay: Delay value scaled by the length of the previous msg.
+// epochMS: Milliseconds since 1970-01-01.
+// cef: "true" if player has cef installed.
+// webclient: "true" if player is on the web client.
+// mobile: "true" if player is on a mobile device.
+// actionCount: Number of actions executed so far.
+// actionLimit: Maximum actions allowed before script termination.
+// runArg[number]: Arguments passed to the script's label. runArg0 is the label name.
+//   - Example: #entryDenied|The_Club|you're_not_cool.
+//   - Unspecified runArgs are empty or 0.
+//   - RunArgs can be changed with goto, jump, call, newthread, and reply.
+
+// Special Labels Section: Labels with predefined triggers.
+
+// #input: Called when player uses /input command or triggers a hotkey.
+//   - runArg1: First word of /input command.
+//   - runArg2: Remaining words of /input command.
+//   - Underscores are converted to spaces.
+
+// #onJoin: Called automatically when a player joins a map.
+
+// Click Label Section: Packages for click event information.
+
+// When a script is triggered by a click event (clickevent action), the following packages provide click details:
+
+// click.button: Mouse button used (Left, Right, Middle).
+// click.coords: Block coordinates of the click. Out-of-map coordinates indicate no block was clicked.
+// click.yaw: Player's yaw angle at the time of the click (more precise than PlayerYaw).
+// click.pitch: Player's pitch angle at the time of the click (more precise than PlayerPitch).
+// click.face: Side of the block that was clicked (None, AwayX, TowardsX, AwayY, TowardsY, AwayZ, TowardsZ).
+
+// Important Notes Section: Key rules and capabilities of the scripting language.
+
+// Action names are case-sensitive.
+// Label names are case-sensitive.
+// Package names are case-insensitive.
+
+// Package unwrapping: Packages can be inserted into most text within the script.
+//   - Allows dynamic script behavior by using package values to modify actions or package names.
+//   - Excludes action names, "if", "ifnot", and label names at the start of a line.
+
+// Top Level Statements Section: Script-wide option toggles and inclusions.
+
+// Top-level statements configure script behavior.
+//   - Written once at the top of the script.
+//   - Default is inactive (false) if not written.
+
+// "using" statements:
+//   using cef: Enables sending CEF commands via the msg action.
+//   using quit_resets_runargs: Resets runArgs (except 0) on "quit" action.
+//   using allow_include: Allows the script to be included in other scripts.
+//   using local_packages: Treats packages prefixed with "l_" as local (instance-specific).
+//     - Local packages are unique to each script instance.
+//     - They start with blank values.
+//     - Newthreads create separate instances.
+//     - resetdata supports a "locals" category.
+
+// "include" statement:
+//   include [scriptname]: Includes the content of another script.
+//     - Similar to C "#include".
+//     - Example: include libs/advlib
+//     - Allows using other scripts as reusable function libraries.
+//     - OS map scripts use "os/" prefix: include os/goodlyay+24
+//     - Included script actions respect the original script's "using" statements.
+
+// Conventions: Coding style and best practices.
+
+// "using", "include", and labels: No leading spaces.
+// Other statements: Four leading spaces.
+// Comments: Treated as strings for potential // action input.
+// Strings: Not string literals (except in if/ifnot comparisons).
+// if statements: Single-line, use "call" and labels for complex conditions.
+// Labels: Conventionally end with "quit".
+// Package Definitions: It is conventional to use lowercase.
+// Label Definitions: It is conventional to use camel case.
