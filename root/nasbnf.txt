@@ -381,9 +381,13 @@
 
 // "using", "include", and labels: No leading spaces.
 // Other statements: Four leading spaces.
-// Comments: Treated as strings for potential // action input.
-// Strings: Not string literals (except in if/ifnot comparisons).
 // if statements: Single-line, use "call" and labels for complex conditions.
 // Labels: Conventionally end with "quit".
 // Package Definitions: It is conventional to use lowercase.
 // Label Definitions: It is conventional to use camel case.
+
+// Syntax Clarifications: Syntax clarifications to ensure understanding.
+
+// Strings: Not string literals (except in if/ifnot comparisons).
+// Single-line Comments: Starts with //, has to be on a seperate line from code.
+// Multi-line Comments: There are no multiline comments in this language. To have more than one line of comments, use multiple single-line comments.
