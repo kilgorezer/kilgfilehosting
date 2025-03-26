@@ -110,7 +110,3 @@
 <value> ::= <string> | <package_unwrap>
 <value_list> ::= <value> ("|" <value>)*
 <any_character> ::= .*
-
-// Implicit Special Labels
-
-// #input: Called on /input command or hotkey press. runArg1 is the
