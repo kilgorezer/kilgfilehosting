@@ -35,8 +35,8 @@
             | "setfromhexcolor" <package> <hex_color> <newline>
             | "settohexcolor" <package> <package> <newline>
             | "show" <package> <package>* <newline>
-            | "kill" <string_literal>? <newline>
-            | "resetdata" <reset_type> <string_literal>? <newline>
+            | "kill" <string>? <newline>
+            | "resetdata" <reset_type> <string>? <newline>
             | "item" <item_action> <package> <newline>
             | "freeze" <newline>
             | "unfreeze" <newline>
@@ -56,20 +56,20 @@
             | "boost" <external_command> <newline>
             | "effect" <external_command> <newline>
             | "reach" <package_or_number> <newline>
-            | "setblockid" <package> <package> <newline>
-            | "definehotkey" <string_literal> "|" <key_name> "|" <hotkey_modifiers>* <newline>
+            | "setblockid" <package> <number> <number> <number> <newline>
+            | "definehotkey" <key_name> "|" <key_name> "|" <hotkey_modifiers>* <newline>
             | "undefinehotkey" <key_name> "|" <hotkey_modifiers>* <newline>
-            | "placeblock" <package> <package> <newline>
+            | "placeblock" <number> <number> <number> <number> <newline>
             | "changemodel" <package>? <newline>
             | "award" <package> <newline>
-            | "setsplit" <package> <string_literal>? <newline>
-            | "setlength" <package> <string_literal>? <newline>
+            | "setsplit" <package> <string>? <newline>
+            | "setlength" <package> <number>? <newline>
             | "setdirvector" <package> <package> <package> <package_or_number> <package_or_number> <newline>
             | "clickevent" <click_mode> "register" <label> <newline>
             | "clickevent" <click_mode> "unregister" <newline>
             | "chatevent" "sync" "register" <label> <label> <value_list> <newline>
             | "chatevent" "sync" "unregister" <newline>
-            | "error" <string_literal> <newline>
+            | "error" <string> <newline>
             | "gui" <gui_option> <gui_value> <newline>
             | "gui" "reset" <newline>
 <label_declaration> ::= <label> <newline> <statement>*
@@ -85,7 +85,7 @@
 <else_statement> ::= "else" <command> <newline>
 <label_call> ::= <label> "|" <arguments>* <newline>
 <arguments> ::= <package>
-<comment> ::= "//" <string_literal> <newline>
+<comment> ::= "//" <string> <newline>
 <package_unwrap> ::= "{" <package> "}"
 <string> ::= <any_character>*
 <string_literal> ::= "\"" <any_character>* "\""
@@ -105,7 +105,7 @@
 <reset_type> ::= "packages" | "items" | "saved" | "locals"
 <item_action> ::= "get" | "take"
 <env_property> ::= "sky" | "cloud" | "cloudspeed" | "cloudheight" | "fog" | "shadow" | "sun" | "skybox" | "lavalight" | "lamplight" | "weather" | "maxfog" | "expfog"
-<motd_arguments> ::= <package> | <number> | <string_literal>
+<motd_arguments> ::= <string>
 <key_name> ::= <package>
 <hotkey_modifiers> ::= "ctrl" | "shift" | "alt" | "async"
 <click_mode> ::= "async" | "sync"
@@ -274,7 +274,7 @@
 
 // chatevent sync unregister: Unregisters chat event.
 
-// error [message]: Forces script error.
+// error [message]: Displays the provided [message] as an error message to the user or logs it for debugging.
 
 // gui [option] [value]: Changes GUI properties (crosshair, hand, hotbar, barSize, barColor). gui reset resets.
 
