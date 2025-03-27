@@ -389,10 +389,19 @@
 // Syntax Clarifications: Syntax clarifications to ensure understanding.
 
 // Strings: Not string literals (except in if/ifnot comparisons).
+
 // Single-line Comments: Starts with //, has to be on a seperate line from code.
 // Multi-line Comments: There are no multiline comments in this language. To have more than one line of comments, use multiple single-line comments.
+
 // Include statements have no filename, however, the files on the server side have a .nas extension.
+
 // Strings are never enclosed with quotes, even in edge cases, as those are treated as literal characters in strings.
 // Meanwhile, string literals always are.
+
 // Here is an example showing a proper use case of strings and string literals:
 // if state|=|"greet" msg Hello, how are you today?
+
+// There is never a space after a pipe being used as a deliminator.
+// Examples:
+// if rating|=|1 msg You gave us too low of a rating!
+// call #handle|init|5
