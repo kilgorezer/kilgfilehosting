@@ -407,3 +407,8 @@
 // call #handle|init|5
 
 // Packages can be unwrapped inside of another package unwrapping, letting you make psudo-arrays and psudo-objects by doing {package[{item}]} and {package.{item}} (or package[{item}] and package.{item} in cases like package setting/clearing and conditionals)
+
+// About: General Information
+// The programming language is called Not Awesome Script, and it's an event-based language for MCGalaxy servers.
+// CEF is refering to Chrome Embedded Framework, specifically the ClassiCube CEF Plugin.
+// Not Awesome Script is developed by Not Awesome 2, a ClassiCube/Betacraft server. NAS on Not Awesome 2 is designed specifically for ClassiCube, however.
