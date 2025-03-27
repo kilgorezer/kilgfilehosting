@@ -405,3 +405,5 @@
 // Examples:
 // if rating|=|1 msg You gave us too low of a rating!
 // call #handle|init|5
+
+// Packages can be unwrapped inside of another package unwrapping, letting you make psudo-arrays and psudo-objects by doing {package[{item}]} and {package.{item}} (or package[{item}] and package.{item} in cases like package setting/clearing and conditionals)
