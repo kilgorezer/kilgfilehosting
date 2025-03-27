@@ -92,7 +92,7 @@
 <external_command> ::= <package>*
 <package> ::= <safe_command_char>*
 <label> ::= "#" <safe_command_char>*
-<safe_command_char> ::= [!-^] | [`-~] | "~"
+<safe_command_char> ::= "!" | [#-^] | [`-~] | "~"
 <number> ::= [0-9]+
 <package_or_number> ::= <package> | <number>
 <newline> ::= "\n"
