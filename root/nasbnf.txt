@@ -410,5 +410,5 @@
 
 // About: General Information
 // The programming language is called Not Awesome Script, and it's an event-based language for MCGalaxy servers.
-// CEF is refering to Chrome Embedded Framework, specifically the ClassiCube CEF Plugin.
+// CEF is referring to Chrome Embedded Framework, specifically the ClassiCube CEF Plugin.
 // Not Awesome Script is developed by Not Awesome 2, a ClassiCube/Betacraft server. NAS on Not Awesome 2 is designed specifically for ClassiCube, however.
