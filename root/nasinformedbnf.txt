@@ -10,7 +10,9 @@
 
 <using_directive_arg> ::= "cef" | "quit_resets_runargs" | "local_packages" | "allow_include"
 
-<label> ::= "#" <label_identifier>
+<label> ::= "#" ( <label_identifier> | <special_label_identifier> ) (* Labels can be user-defined or special event labels *)
+
+<special_label_identifier> ::= "input" | "inputAsync" | "onJoin" | "onExit" | "accessControl" (* System-triggered labels *)
 
 <script_line> ::= [ <condition> <whitespace> ] <action> [ <whitespace> <action_arguments> ]
 
@@ -19,7 +21,7 @@
               | "else"
 
 <condition_args> ::= "item" <whitespace> <item_name>
-                   | "label" <whitespace> <label_identifier>
+                   | "label" <whitespace> <label_identifier> (* Note: 'label' condition checks for user-defined labels, not special ones *)
                    | <package_name> [ <whitespace>? "|" <whitespace>? <comparison_operator> <whitespace>? <value_to_compare> ]
 
 <comparison_operator> ::= "=" | "!=" | "<" | "<=" | ">" | ">="
@@ -110,6 +112,8 @@
 
 <quoted_literal> ::= "\"" { <character_excluding_quote> } "\""
 
+<special_symbol> ::= "@p" | "@nick" | "@color" (* Add other special symbols as needed *)
+
 (* Basic building blocks *)
 <identifier> ::= <letter> { <letter> | <digit> | "_" | "+" | "/" } (* Allow + and / in identifiers for script/level names *)
 <letter> ::= "a" | ... | "z" | "A" | ... | "Z"
@@ -118,21 +122,21 @@
 <character> ::= (* Any character *)
 <character_excluding_quote> ::= (* Any character except '"' and newline *)
 <character_excluding_whitespace> ::= (* Any character except space, tab, and newline *)
+<character_excluding_pipe> ::= (* Any character except '|' and newline *)
 <whitespace> ::= " " | "\t"
 <newline> ::= "\n" | "\r\n"
 
 (* Case-Insensitivity Notes:
    - Package names (<package_name>, <read_only_package_name>, <run_arg_package_name>, <click_info_package_name>) are case-insensitive.
    - Action names (<action_name>) are case-sensitive.
-   - Labels (<label_identifier>) are case-sensitive.
+   - Labels (<label_identifier>, <special_label_identifier>) are case-sensitive.
    - Item names (<item_name>) are case-insensitive.
    - Key names (<key_name>) are case-insensitive.
    - Modifier names ("ctrl", "shift", "alt", "async") are case-insensitive.
-   - Special symbols (@p, @nick, etc.) are case-insensitive.
    - Strings are unquoted unless in conditionals.
-       - Examples:
-       - msg "hello, world" = invalid
-       - msg "hello, world" = valid
-       - if a|=|"string" = valid
-       - if a|=|string = invalid
+     - Examples:
+     - msg "hello, world" = invalid
+     - msg hello, world = valid
+     - if a|=|"string" = valid
+     - if a|=|string = invalid
 *)
