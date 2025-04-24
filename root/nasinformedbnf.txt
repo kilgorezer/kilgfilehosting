@@ -129,4 +129,10 @@
    - Key names (<key_name>) are case-insensitive.
    - Modifier names ("ctrl", "shift", "alt", "async") are case-insensitive.
    - Special symbols (@p, @nick, etc.) are case-insensitive.
+   - Strings are unquoted unless in conditionals.
+       - Examples:
+       - msg "hello, world" = invalid
+       - msg "hello, world" = valid
+       - if a|=|"string" = valid
+       - if a|=|string = invalid
 *)
