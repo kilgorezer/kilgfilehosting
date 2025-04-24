@@ -22,7 +22,7 @@
 
 <condition_args> ::= "item" <whitespace> <item_name>
                    | "label" <whitespace> <label_identifier> (* Note: 'label' condition checks for user-defined labels, not special ones *)
-                   | <package_name> [ <whitespace>? "|" <whitespace>? <comparison_operator> <whitespace>? <value_to_compare> ]
+                   | <package_name> [ "|" <comparison_operator> "|" <value_to_compare> ] (* Corrected: No whitespace around pipes *)
 
 <comparison_operator> ::= "=" | "!=" | "<" | "<=" | ">" | ">="
 
@@ -55,7 +55,7 @@
 
 <raw_text_token> ::= { <character_excluding_whitespace> } (* Any sequence of characters without whitespace *)
 
-<pipe_separated_args> ::= <pipe_argument_part> { <whitespace>? "|" <whitespace>? <pipe_argument_part> }
+<pipe_separated_args> ::= <pipe_argument_part> { "|" <pipe_argument_part> } (* Corrected: No whitespace around pipes *)
 
 <pipe_argument_part> ::= { <pipe_argument_token> <whitespace> } <pipe_argument_token> (* Tokens within pipe parts *)
                        | <raw_text_pipe_part> (* For parts that can contain spaces but not pipes *)
