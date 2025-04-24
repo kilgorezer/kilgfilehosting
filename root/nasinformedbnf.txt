@@ -1,0 +1,132 @@
+<script> ::= { <line> }
+
+<line> ::= <whitespace>? ( <comment> | <directive> | <label> | <script_line> ) <whitespace>? <newline>
+         | <whitespace>? <newline> (* Empty or whitespace-only lines *)
+
+<comment> ::= "//" { <character> }
+
+<directive> ::= "using" <whitespace> <using_directive_arg>
+              | "include" <whitespace> <script_name>
+
+<using_directive_arg> ::= "cef" | "quit_resets_runargs" | "local_packages" | "allow_include"
+
+<label> ::= "#" <label_identifier>
+
+<script_line> ::= [ <condition> <whitespace> ] <action> [ <whitespace> <action_arguments> ]
+
+<condition> ::= "if" <whitespace> <condition_args>
+              | "ifnot" <whitespace> <condition_args>
+              | "else"
+
+<condition_args> ::= "item" <whitespace> <item_name>
+                   | "label" <whitespace> <label_identifier>
+                   | <package_name> [ <whitespace>? "|" <whitespace>? <comparison_operator> <whitespace>? <value_to_compare> ]
+
+<comparison_operator> ::= "=" | "!=" | "<" | "<=" | ">" | ">="
+
+<value_to_compare> ::= <package_name> | <quoted_literal> | <number_literal>
+
+<action> ::= <action_name>
+
+<action_name> ::= "msg" | "cpemsg" | "localmsg" | "menumsg" | "delay" | "jump" | "goto" | "call" | "quit" | "terminate"
+                | "newthread" | "cmd" | "set" | "setadd" | "setsub" | "setmul" | "setdiv" | "setmod" | "setpow"
+                | "setsin" | "setcos" | "settan" | "setsqrt" | "setrandrange" | "setrandrangedecimal" | "setrandlist"
+                | "setround" | "setroundup" | "setrounddown" | "setfromhexcolor" | "settohexcolor" | "show" | "kill"
+                | "resetdata" | "item" | "freeze" | "unfreeze" | "look" | "stare" | "env" | "motd" | "setspawn"
+                | "setdeathspawn" | "allowmbrepeat" | "reply" | "replysilent" | "tempblock" | "tempchunk" | "boost"
+                | "effect" | "reach" | "setblockid" | "definehotkey" | "undefinehotkey" | "placeblock" | "changemodel"
+                | "award" | "setsplit" | "setlength" | "setdirvector" | "clickevent" | "chatevent" | "error" | "gui"
+                (* Add other defined action names here as needed *)
+
+<action_arguments> ::= <space_separated_args>
+                     | <pipe_separated_args> (* Used by actions like reply, definehotkey, setrandlist *)
+
+<space_separated_args> ::= <argument_token> { <whitespace> <argument_token> }
+
+<argument_token> ::= <interpolated_string>
+                   | <quoted_literal>
+                   | <number_literal>
+                   | <package_name>
+                   | <special_symbol>
+                   | <identifier> (* Catch-all for other simple tokens *)
+                   | <raw_text_token> (* For parts of arguments that aren't standard tokens *)
+
+<raw_text_token> ::= { <character_excluding_whitespace> } (* Any sequence of characters without whitespace *)
+
+<pipe_separated_args> ::= <pipe_argument_part> { <whitespace>? "|" <whitespace>? <pipe_argument_part> }
+
+<pipe_argument_part> ::= { <pipe_argument_token> <whitespace> } <pipe_argument_token> (* Tokens within pipe parts *)
+                       | <raw_text_pipe_part> (* For parts that can contain spaces but not pipes *)
+
+<pipe_argument_token> ::= <interpolated_string>
+                        | <quoted_literal>
+                        | <number_literal>
+                        | <package_name>
+                        | <special_symbol>
+                        | <identifier> (* Catch-all for other simple tokens *)
+                        | <raw_text_token> (* Tokens within pipe parts *)
+
+
+<raw_text_pipe_part> ::= { <character_excluding_pipe> } (* Any sequence of characters not containing '|' *)
+<character_excluding_pipe> ::= (* Any character except '|' and newline *)
+
+<interpolated_string> ::= "{" <package_name> "}"
+
+<package_name> ::= [ "@" <script_name> "_" ] <identifier> [ "." ]
+                 | "l_" <identifier>
+                 | <read_only_package_name>
+                 | <run_arg_package_name>
+                 | <click_info_package_name>
+
+(* <script_name> rule based on C# logic: can be 'os/' followed by a level name, or a regular name *)
+<script_name> ::= <os_script_name> | <regular_script_name>
+<os_script_name> ::= "os/" <level_name>
+<regular_script_name> ::= <identifier> [ "/" <identifier> ] (* Simplified path *)
+                          | <level_name> (* When referring to the map's own script by name *)
+
+(* <level_name> is an identifier that may contain '+', based on Script.IsOs *)
+<level_name> ::= <identifier> (* The parser needs to recognize identifiers that contain '+' as level names in this context *)
+
+<read_only_package_name> ::= "MBCoords" | "MBX" | "MBY" | "MBZ"
+                           | "PlayerCoords" | "PlayerX" | "PlayerY" | "PlayerZ"
+                           | "PlayerCoordsPrecise" | "PlayerPX" | "PlayerPY" | "PlayerPZ"
+                           | "PlayerCoordsDecimal" | "PlayerYaw" | "PlayerPitch" | "PlayerPronouns"
+                           | "msgDelay" | "epochMS" | "cef" | "webclient" | "mobile"
+                           | "actionCount" | "actionLimit"
+
+<run_arg_package_name> ::= "runArg" <digit> { <digit> }
+
+<click_info_package_name> ::= "click." <click_info_field>
+<click_info_field> ::= "button" | "coords" | "yaw" | "pitch" | "face"
+
+<item_name> ::= <identifier> { "_" <identifier> } (* Can contain underscores *)
+
+<label_identifier> ::= <identifier>
+
+<key_name> ::= <identifier> (* Specific set of identifiers from LWJGL keycodes *)
+
+<modifier_list> ::= <modifier> { <whitespace> <modifier> }
+<modifier> ::= "ctrl" | "shift" | "alt" | "async"
+
+<quoted_literal> ::= "\"" { <character_excluding_quote> } "\""
+
+(* Basic building blocks *)
+<identifier> ::= <letter> { <letter> | <digit> | "_" | "+" | "/" } (* Allow + and / in identifiers for script/level names *)
+<letter> ::= "a" | ... | "z" | "A" | ... | "Z"
+<digit> ::= "0" | ... | "9"
+<number_literal> ::= [ "-" ] <digit> { <digit> } [ "." { <digit> } ] (* Allows integers and floats *)
+<character> ::= (* Any character *)
+<character_excluding_quote> ::= (* Any character except '"' and newline *)
+<character_excluding_whitespace> ::= (* Any character except space, tab, and newline *)
+<whitespace> ::= " " | "\t"
+<newline> ::= "\n" | "\r\n"
+
+(* Case-Insensitivity Notes:
+   - Package names (<package_name>, <read_only_package_name>, <run_arg_package_name>, <click_info_package_name>) are case-insensitive.
+   - Action names (<action_name>) are case-sensitive.
+   - Labels (<label_identifier>) are case-sensitive.
+   - Item names (<item_name>) are case-insensitive.
+   - Key names (<key_name>) are case-insensitive.
+   - Modifier names ("ctrl", "shift", "alt", "async") are case-insensitive.
+   - Special symbols (@p, @nick, etc.) are case-insensitive.
+*)
