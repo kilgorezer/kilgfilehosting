@@ -5,7 +5,8 @@
 	</head>
 	<body style="background-color: #2222FF;">
 		<span style="font-size: 24pt;">Enter a URL without the HTTPS.<br/>HTTPS sites only.</span><br/>
-		<input type="text" id="URL" style="width: 500px; font-size: 24pt; background-color: #8888FF;"/> <input type="button" value="Go!" onclick="browgo();" style="font-size: 24pt;">
+		<input type="text" id="URL" style="width: 500px; font-size: 24pt; background-color: #8888FF;"/> <input type="button" value="Go!" onclick="browgo();" style="font-size: 24pt;"><br/><br/>
+		<a href="javascript:appgo()">Go to App Center</a>
 		<script type="text/javascript">
 			function browgo() {
 				var text = document.getElementById("URL").value;
@@ -17,6 +18,9 @@
 					event.preventDefault();
 				}
 			})
+			function appgo() {
+				location.href = "https://store.leapfrog.com/apps-dv" + location.search;
+			}
 		</script>
 	</body>
 </html>
