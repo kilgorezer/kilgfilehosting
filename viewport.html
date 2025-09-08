@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Viewport Size</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 flex items-center justify-center min-h-screen p-4">
+
+        <!-- Main Container -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-lg w-full text-center">
+            <h1 class="text-3xl sm:text-4xl font-extrabold mb-4 text-indigo-600 dark:text-indigo-400">Your Viewport Size</h1>
+            <p class="text-base sm:text-lg mb-8 text-gray-600 dark:text-gray-300">
+                The viewport is the visible area of a web page. Its size changes based on your device and browser window.
+            </p>
+
+            <!-- Display Box -->
+            <div class="bg-gray-200 dark:bg-gray-700 rounded-xl p-6 mb-8 shadow-inner">
+                <p id="sizeDisplay" class="text-3xl sm:text-5xl font-mono font-bold text-gray-800 dark:text-gray-100 transition-all duration-300">
+                    <span id="width">0</span> × <span id="height">0</span> px
+                </p>
+            </div>
+
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                Try resizing your browser window to see the values change in real-time!
+            </p>
+        </div>
+
+        <script>
+            // Use `var` for variable declarations as per user preference.
+            var widthSpan = document.getElementById('width');
+            var heightSpan = document.getElementById('height');
+
+            // Function to get the viewport size using a more compatible method
+            function getViewportSize() {
+                var width, height;
+
+                // Most modern browsers
+                if (window.innerWidth) {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                }
+                // IE8 and older
+                else if (document.documentElement && document.documentElement.clientWidth) {
+                    width = document.documentElement.clientWidth;
+                    height = document.documentElement.clientHeight;
+                }
+                // Fallback for older browsers
+                else if (document.body && document.body.clientWidth) {
+                    width = document.body.clientWidth;
+                    height = document.body.clientHeight;
+                }
+
+                return { width: width, height: height };
+            }
+
+            // Function to update the viewport dimensions
+            function updateViewportSize() {
+                var size = getViewportSize();
+
+                widthSpan.textContent = size.width;
+                heightSpan.textContent = size.height;
+            }
+
+            // Update the size on page load
+            window.onload = function() {
+                updateViewportSize();
+            };
+
+            // Add a listener to update the size whenever the window is resized
+            window.addEventListener('resize', updateViewportSize);
+        </script>
+
+    </body>
+</html>
