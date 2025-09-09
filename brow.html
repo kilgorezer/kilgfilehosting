@@ -10,6 +10,16 @@
 		<script type="text/javascript">
 			function browgo() {
 				var text = document.getElementById("URL").value;
+
+				// make a special case for lfhacks wiki shortcut
+				if (text = "@lfhwiki") {location.href = "https://wiki.lfhacks.net/"; return;}
+				// make a special case for app center shortcut
+				if (text = "@appcenter") {location.href = "https://wiki.lfhacks.net/"; return;}
+				// make a special case for popup testing page
+				if (text = "@popup") {location.href = "https://u.kilgorezer.com/popup.html"; return;}
+				// make a special case for viewport testing page
+				if (text = "@viewport") {location.href = "https://u.kilgorezer.com/viewport.html"; return;}
+
 				location.href = "https://" + text;
 			}
 			document.getElementById("URL").addEventListener("keypress", function(event) {
